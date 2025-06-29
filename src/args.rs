@@ -53,7 +53,7 @@ impl Arguments {
                         builder.attempt((val.parse().expect("Passed invalid number"), 0));
                     }
                 }
-                "--error" | "-E" => {
+                "--error" | "-e" => {
                     builder.error(val);
                 }
                 "--max-width" | "-w" => {

@@ -2,7 +2,9 @@ use std::ops::{Deref, DerefMut};
 // fyi: I tried to first ad-hoc everything, then I tried to clean things up, then I decided to fuckall speedrun everything.
 //      Curses drove me to my mental limit
 
-use pancurses::{A_STANDOUT, Attribute, Window};
+use pancurses::{
+    A_COLOR, A_STANDOUT, Attribute, COLOR_PAIR, COLOR_RED, COLOR_WHITE, Window, init_pair,
+};
 
 use crate::{args::Arguments, terminal::Terminal};
 
@@ -46,6 +48,10 @@ impl Prompt {
             height += annotation.split('\n').count() as i32 + 2;
         }
 
+        if context.error.is_some() || context.attempt.is_some() {
+            height += 2
+        }
+
         height
     }
 
@@ -74,6 +80,25 @@ impl Prompt {
                 self.printw(line);
                 self.mv(self.get_cur_y() + 1, 2);
             }
+            self.mv(self.get_cur_y() + 2, 2);
+        }
+
+        if context.error.is_some() || context.attempt.is_some() {
+            let mut error = context.error.clone().unwrap_or("Try again".to_string());
+            if let Some((curr, max)) = context.attempt {
+                let string = if max == 0 {
+                    format!(" (attempt {curr})")
+                } else {
+                    format!(" (try {curr} of {max})")
+                };
+                error.push_str(&string);
+            }
+
+            init_pair(17, COLOR_RED, -1);
+            self.attron(COLOR_PAIR(17));
+            self.printw(error);
+            self.attroff(COLOR_PAIR(17));
+
             self.mv(self.get_cur_y() + 2, 2);
         }
 

@@ -4,7 +4,9 @@ use std::{
 };
 
 use libc::{FILE, PT_NULL, STDERR_FILENO, fopen};
-use pancurses::{Window, endwin, initscr, newterm, newwin, set_term};
+use pancurses::{
+    Window, endwin, initscr, newterm, newwin, set_term, start_color, use_default_colors,
+};
 
 pub struct Terminal {
     window: Window,
@@ -22,6 +24,9 @@ impl Terminal {
     pub fn init() -> Self {
         newterm(None, unsafe { stderr }, unsafe { stdin });
         let window = newwin(0, 0, 0, 0);
+
+        start_color();
+        use_default_colors();
 
         let (height, width) = window.get_max_yx();
 

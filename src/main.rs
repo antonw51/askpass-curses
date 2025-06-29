@@ -35,6 +35,8 @@ fn main() {
         match input {
             Input::KeyEnter | Input::Character('\n') => {
                 if prompt.cursor == 2 {
+                    std::mem::drop(prompt);
+                    std::mem::drop(terminal);
                     process::exit(1);
                 }
                 break;
@@ -65,9 +67,8 @@ fn main() {
         prompt.clear();
         prompt.redraw(&terminal, &arguments);
     }
-    // i mean we dont need this if we dont drop the buffer and the term i guess  let buf = std::mem::take(&mut prompt.buffer);
-    pancurses::endwin();
-    let mut out = stdout(); // ye ik lemme try it anyways
+
+    let mut out = stdout();
     out.write_all(prompt.buffer.as_bytes()).expect("failed");
     out.flush().expect("failed2");
 }
