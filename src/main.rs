@@ -3,27 +3,19 @@ mod prompt;
 mod terminal;
 
 use std::{
-    env::args,
-    fmt::format,
-    io::{Write, stdout},
-    iter::repeat,
+    io::{stdout, Write},
     process,
 };
 
-use anyhow::bail;
 use pancurses::Input;
 
 use crate::{args::Arguments, prompt::Prompt, terminal::Terminal};
 
-struct State {
-    cursor: u8,
-}
-
 fn main() {
     let mut args = std::env::args();
-    let mut arguments = Arguments::parse_args(&mut args);
+    let arguments = Arguments::parse_args(&mut args);
 
-    let mut terminal = Terminal::init();
+    let terminal = Terminal::init();
     let mut prompt = Prompt::create(&terminal, &arguments);
 
     prompt.redraw(&terminal, &arguments);

@@ -3,9 +3,9 @@ use std::{
     os::fd::{AsFd, AsRawFd},
 };
 
-use libc::{FILE, PT_NULL, STDERR_FILENO, fopen};
+use libc::{fopen, FILE, PT_NULL, STDERR_FILENO};
 use pancurses::{
-    Window, endwin, initscr, newterm, newwin, set_term, start_color, use_default_colors,
+    endwin, initscr, newterm, newwin, set_term, start_color, use_default_colors, Window,
 };
 
 pub struct Terminal {

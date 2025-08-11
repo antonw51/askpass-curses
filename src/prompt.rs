@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 //      Curses drove me to my mental limit
 
 use pancurses::{
-    A_COLOR, A_STANDOUT, Attribute, COLOR_PAIR, COLOR_RED, COLOR_WHITE, Window, init_pair,
+    init_pair, Attribute, Window, A_COLOR, A_STANDOUT, COLOR_PAIR, COLOR_RED, COLOR_WHITE,
 };
 
 use crate::{args::Arguments, terminal::Terminal};

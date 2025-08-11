@@ -1,5 +1,5 @@
 use std::{
-    env::{Args, args},
+    env::{args, Args},
     process,
 };
 
